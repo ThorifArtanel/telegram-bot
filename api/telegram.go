@@ -32,16 +32,6 @@ type Chat struct {
 	Id int `json:"id"`
 }
 
-// parseTelegramRequest handles incoming update from the Telegram web hook
-func parseTelegramRequest(r *http.Request) (*Update, error) {
-	var update Update
-	if err := json.NewDecoder(r.Body).Decode(&update); err != nil {
-		log.Printf("could not decode incoming update %s", err.Error())
-		return nil, err
-	}
-	return &update, nil
-}
-
 // HandleTelegramWebHook sends a message back to the chat by the message provided by the user.
 func HandleTelegramWebHook(w http.ResponseWriter, r *http.Request) {
 
@@ -78,6 +68,16 @@ func HandleTelegramWebHook(w http.ResponseWriter, r *http.Request) {
 	} else {
 		log.Printf("content %s successfuly distributed to chat id %d", content, update.Message.Chat.Id)
 	}
+}
+
+// parseTelegramRequest handles incoming update from the Telegram web hook
+func parseTelegramRequest(r *http.Request) (*Update, error) {
+	var update Update
+	if err := json.NewDecoder(r.Body).Decode(&update); err != nil {
+		log.Printf("could not decode incoming update %s", err.Error())
+		return nil, err
+	}
+	return &update, nil
 }
 
 // sendTextToTelegramChat sends a text message to the Telegram chat identified by its chat Id

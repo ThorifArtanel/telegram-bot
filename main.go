@@ -33,6 +33,7 @@ func main() {
     myRouter.HandleFunc("/headers", api.DefaultHeader)
     myRouter.HandleFunc("/env", api.DefaultEnv)
     myRouter.HandleFunc("/status", api.DefaultStatus)
+    myRouter.HandleFunc("/for/telegram/", api.HandleTelegramWebHook)
 
 	port := os.Getenv("PORT")
 	if port == "" {
